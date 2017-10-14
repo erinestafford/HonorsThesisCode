@@ -20,7 +20,7 @@ for i = 1:length(array_names)
     name = array_names{i};
     [lb, ub] = range(lb, ub, name, -5, 5, array_names);
 end
-init_parray = (ub+lb)/2;
+init_parray = [-1,1]
 % syms x y;
 % hessian(fn([x,y]), [x,y])
 % gradient(fn([x,y]), [x,y])
@@ -28,4 +28,5 @@ init_parray = (ub+lb)/2;
 solution = fminsearch(fn, init_parray)
 g = grad_fdm(solution, fn, 2)'
 h = hess_fdm(solution, fn)'
+[V,D] = eig(h)
 %[parray, ~, ~,~,~,grad, hes] = fmincon(fn, solution, [],[],[],[], lb,ub )
