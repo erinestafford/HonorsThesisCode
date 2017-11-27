@@ -50,11 +50,14 @@ hessian = hess_fdm(solution, fn)'
 [eigenvectors,eigenvalues] = eig(hessian)
 d = diag(eigenvalues);
 x = [0 5];
-e1 = eigenvectors(:,1)
-e2 = eigenvectors(:,2)
-
-plot1 = quiver(solution(1),solution(2),solution(1)*e1(1)+e1(1),solution(2)*e1(2)+e1(2),0);
-plot2 = quiver(solution(1),solution(2),solution(1)*e2(1)+e2(1),solution(2)*e2(2)+e2(2),2);
+e1 = eigenvectors(:,1);
+e2 = eigenvectors(:,2);
+%x = x0 + e1(1)t
+%y = y0 + e1(2)t
+x = [0:1:2];
+plotfn = @(e,x)((e(2)/e(1))*(x-solution(1))+solution(2));
+plot1 = plot(x,plotfn(e1,x));
+plot2 = plot(x,plotfn(e2, x));
 % plot1=plot(e1);
 % plot2=plot(e2);
 legend([plot1,plot2],num2str(d(1)), num2str(d(2)))
