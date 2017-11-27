@@ -20,14 +20,14 @@ set(0,'DefaultFigureWindowStyle','docked')
 % fnEval(params, fn, array_names)
 
 %% Example 3 z =(1-(x+y))^2
-param_struct = ...
-    {'x', 1.0;
-     'y', 1.0;
-    }';
-params = struct(param_struct{:});
-array_names = param_struct(1,:);
-fn= @(param_array)example3(param_array,array_names);
-fnEval(params, fn, array_names)
+% param_struct = ...
+%     {'x', 1.0;
+%      'y', 1.0;
+%     }';
+% params = struct(param_struct{:});
+% array_names = param_struct(1,:);
+% fn= @(param_array)example3(param_array,array_names);
+% fnEval(params, fn, array_names)
 
 %% Example 4 z=(x*y)^2 
 % param_struct = ...
@@ -106,15 +106,28 @@ fnEval(params, fn, array_names)
 % obj_fn = @(base_val,fn, params)obj_fn_spring(base_val,fn, params);
 % fnEvalODE(params, fn, array_names, init_cond, obj_fn)
 %% Example 11 y' = (a+2b)y
+% param_struct = ...
+%     {'a', 0;
+%      'b', -1;
+%     }';
+% params = struct(param_struct{:});
+% array_names = param_struct(1,:);
+% y = [0:1:10];
+% data_to_fit = -2.*y;
+% fn= @(t,y,p)ODEexample3(t,y,p, array_names);
+% obj_fn = @(fn, params)obj_fn(data_to_fit,fn, params);
+% fnEvalODE(params, fn, array_names, y, obj_fn)
+
+%% Example 12, above with noise
 param_struct = ...
-    {'a', 0;
-     'b', -1;
+    {'a',1;
+     'b',1;
     }';
 params = struct(param_struct{:});
 array_names = param_struct(1,:);
-y = [0:1:10];
+y = [0:1:20];
 data_to_fit = -2.*y;
+data_to_fit_noise = data_to_fit + randn(size(y));
 fn= @(t,y,p)ODEexample3(t,y,p, array_names);
 obj_fn = @(fn, params)obj_fn(data_to_fit,fn, params);
-fnEvalODE(params, fn, array_names, y, obj_fn)
-
+fnEvalOptimize(params, fn, array_names, y, obj_fn)
